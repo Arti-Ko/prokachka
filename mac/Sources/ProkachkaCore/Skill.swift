@@ -34,6 +34,16 @@ public enum Skill: String, CaseIterable, Codable, Sendable {
         }
     }
 
+    /// Сколько минут дела дают объём ×1: работа длиннее медитации.
+    public var minuteNorm: Double {
+        switch self {
+        case .work: 60
+        case .craft: 45
+        case .rest: 15
+        default: 30
+        }
+    }
+
     /// Базовый опыт за одно дело этого навыка.
     public var base: Double {
         switch self {

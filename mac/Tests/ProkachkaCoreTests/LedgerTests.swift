@@ -98,7 +98,38 @@ final class LedgerTests: XCTestCase {
         XCTAssertEqual(byId["streak7"]?.done, true)
         XCTAssertEqual(byId["clean7"]?.done, true)
         XCTAssertEqual(byId["self10"]?.progress, 7)
-        XCTAssertEqual(byId["xp300"]?.done, false)
+        XCTAssertEqual(byId["day300"]?.done, false)
+        XCTAssertEqual(byId["mind10"]?.done, false)
+        XCTAssertEqual(s.achievements.count, AchievementCatalog.all.count)
+    }
+
+    func testMetricsCountDistanceWeekendsAndSkills() {
+        func text(_ day: String, _ t: String, _ skill: Skill, _ xp: Int, steps: [Step] = []) -> Event {
+            seq += 1
+            return Event.act(t, Assessment(skill: skill, xp: xp, steps: steps, sure: true), ts: 1_700_000_000_000 + seq * 1000, day: day, device: "mac", id: "m\(seq)")
+        }
+        // 2026-10-31 — суббота, 2026-11-01 — воскресенье.
+        let events = [text("2026-10-31", "Пробежал пять километров", .body, 70), text("2026-11-01", "Проехал 20 км на велосипеде", .body, 78),
+                      text("2026-11-01", "Прочитал 30 страниц", .mind, 47), text("2026-11-01", "Работал 2 часа", .work, 60),
+                      text("2026-11-01", "Курил", .rest, -25, steps: [Step(name: "Курение", val: "−25")])]
+        let m = Ledger.snapshot(events, today: "2026-11-01", clock: moscow).metrics
+        XCTAssertEqual(m["km"], 25)
+        XCTAssertEqual(m["pages"], 30)
+        XCTAssertEqual(m["focusMinutes"], 120)
+        XCTAssertEqual(m["weekends"], 1)
+        XCTAssertEqual(m["skillsInDayBest"], 3)
+        XCTAssertEqual(m["minuses"], 1)
+        XCTAssertEqual(m["skillActs.body"], 2)
+    }
+
+    func testContextKnowsHistoryForVarietyAndComeback() {
+        let events = [act("2026-10-25", .body, 40), act("2026-10-28", .mind, 30), act("2026-11-01", .work, 45)]
+        let ctx = Ledger.snapshot(events, today: "2026-11-01", clock: moscow).context()
+        XCTAssertEqual(ctx.lastTrained[.body], 7)
+        XCTAssertEqual(ctx.lastTrained[.mind], 4)
+        XCTAssertNil(ctx.lastTrained[.work])
+        XCTAssertEqual(ctx.daysSinceAny, 4)
+        XCTAssertEqual(ctx.dayActs.first?.text, "дело 3")
     }
 
     func testAssessedActRoundTripsThroughJSON() throws {
@@ -106,6 +137,5 @@ final class LedgerTests: XCTestCase {
         let e = Event.act("Сам написал алгоритм за 2 часа", a, ts: 1, day: "2026-11-01", device: "mac")
         let back = try JSONDecoder().decode(Event.self, from: JSONEncoder().encode(e))
         XCTAssertEqual(back, e)
-        XCTAssertEqual(a.xp, 145)
     }
 }

@@ -1,0 +1,922 @@
+[
+ {
+  "id": "lvl2",
+  "group": "Прогресс",
+  "metric": "level",
+  "goal": 2,
+  "tier": 1,
+  "title": "Первые шаги",
+  "text": "Дойти до 2 уровня",
+  "hidden": false
+ },
+ {
+  "id": "lvl5",
+  "group": "Прогресс",
+  "metric": "level",
+  "goal": 5,
+  "tier": 1,
+  "title": "Ученик",
+  "text": "Дойти до 5 уровня",
+  "hidden": false
+ },
+ {
+  "id": "lvl10",
+  "group": "Прогресс",
+  "metric": "level",
+  "goal": 10,
+  "tier": 2,
+  "title": "Двузначный",
+  "text": "Дойти до 10 уровня",
+  "hidden": false
+ },
+ {
+  "id": "lvl15",
+  "group": "Прогресс",
+  "metric": "level",
+  "goal": 15,
+  "tier": 2,
+  "title": "Мастер",
+  "text": "Дойти до 15 уровня",
+  "hidden": false
+ },
+ {
+  "id": "lvl20",
+  "group": "Прогресс",
+  "metric": "level",
+  "goal": 20,
+  "tier": 3,
+  "title": "Легенда",
+  "text": "Дойти до 20 уровня",
+  "hidden": false
+ },
+ {
+  "id": "lvl30",
+  "group": "Прогресс",
+  "metric": "level",
+  "goal": 30,
+  "tier": 3,
+  "title": "Миф",
+  "text": "Дойти до 30 уровня",
+  "hidden": false
+ },
+ {
+  "id": "lvl50",
+  "group": "Прогресс",
+  "metric": "level",
+  "goal": 50,
+  "tier": 4,
+  "title": "Полубог",
+  "text": "Дойти до 50 уровня",
+  "hidden": true
+ },
+ {
+  "id": "xp1k",
+  "group": "Прогресс",
+  "metric": "xpTotal",
+  "goal": 1000,
+  "tier": 1,
+  "title": "Тысяча",
+  "text": "1 000 XP всего",
+  "hidden": false
+ },
+ {
+  "id": "xp10k",
+  "group": "Прогресс",
+  "metric": "xpTotal",
+  "goal": 10000,
+  "tier": 2,
+  "title": "Десять тысяч",
+  "text": "10 000 XP всего",
+  "hidden": false
+ },
+ {
+  "id": "xp50k",
+  "group": "Прогресс",
+  "metric": "xpTotal",
+  "goal": 50000,
+  "tier": 3,
+  "title": "Пятьдесят тысяч",
+  "text": "50 000 XP всего",
+  "hidden": false
+ },
+ {
+  "id": "xp100k",
+  "group": "Прогресс",
+  "metric": "xpTotal",
+  "goal": 100000,
+  "tier": 4,
+  "title": "Сто тысяч",
+  "text": "100 000 XP всего",
+  "hidden": false
+ },
+ {
+  "id": "streak3",
+  "group": "Серии",
+  "metric": "streakBest",
+  "goal": 3,
+  "tier": 1,
+  "title": "Разгон",
+  "text": "3 дня подряд",
+  "hidden": false
+ },
+ {
+  "id": "streak7",
+  "group": "Серии",
+  "metric": "streakBest",
+  "goal": 7,
+  "tier": 1,
+  "title": "Неделя подряд",
+  "text": "7 дней без пропусков",
+  "hidden": false
+ },
+ {
+  "id": "streak14",
+  "group": "Серии",
+  "metric": "streakBest",
+  "goal": 14,
+  "tier": 2,
+  "title": "Две недели",
+  "text": "14 дней без пропусков",
+  "hidden": false
+ },
+ {
+  "id": "streak30",
+  "group": "Серии",
+  "metric": "streakBest",
+  "goal": 30,
+  "tier": 2,
+  "title": "Месяц подряд",
+  "text": "30 дней без пропусков",
+  "hidden": false
+ },
+ {
+  "id": "streak60",
+  "group": "Серии",
+  "metric": "streakBest",
+  "goal": 60,
+  "tier": 3,
+  "title": "Два месяца",
+  "text": "60 дней без пропусков",
+  "hidden": false
+ },
+ {
+  "id": "streak100",
+  "group": "Серии",
+  "metric": "streakBest",
+  "goal": 100,
+  "tier": 3,
+  "title": "Сотня дней",
+  "text": "100 дней без пропусков",
+  "hidden": false
+ },
+ {
+  "id": "streak365",
+  "group": "Серии",
+  "metric": "streakBest",
+  "goal": 365,
+  "tier": 4,
+  "title": "Год без пропусков",
+  "text": "365 дней подряд",
+  "hidden": true
+ },
+ {
+  "id": "days10",
+  "group": "Серии",
+  "metric": "daysActive",
+  "goal": 10,
+  "tier": 1,
+  "title": "Десять дней",
+  "text": "10 дней с делами",
+  "hidden": false
+ },
+ {
+  "id": "days50",
+  "group": "Серии",
+  "metric": "daysActive",
+  "goal": 50,
+  "tier": 2,
+  "title": "Полсотни дней",
+  "text": "50 дней с делами",
+  "hidden": false
+ },
+ {
+  "id": "days100",
+  "group": "Серии",
+  "metric": "daysActive",
+  "goal": 100,
+  "tier": 2,
+  "title": "Сто дней",
+  "text": "100 дней с делами",
+  "hidden": false
+ },
+ {
+  "id": "days365",
+  "group": "Серии",
+  "metric": "daysActive",
+  "goal": 365,
+  "tier": 3,
+  "title": "Год в игре",
+  "text": "365 дней с делами",
+  "hidden": false
+ },
+ {
+  "id": "clean3",
+  "group": "Серии",
+  "metric": "cleanBest",
+  "goal": 3,
+  "tier": 1,
+  "title": "Без срывов",
+  "text": "3 дня подряд без минусов",
+  "hidden": false
+ },
+ {
+  "id": "clean7",
+  "group": "Серии",
+  "metric": "cleanBest",
+  "goal": 7,
+  "tier": 2,
+  "title": "Чистая неделя",
+  "text": "7 дней подряд без минусов",
+  "hidden": false
+ },
+ {
+  "id": "clean30",
+  "group": "Серии",
+  "metric": "cleanBest",
+  "goal": 30,
+  "tier": 3,
+  "title": "Чистый месяц",
+  "text": "30 дней подряд без минусов",
+  "hidden": false
+ },
+ {
+  "id": "phoenix",
+  "group": "Серии",
+  "metric": "comebacks",
+  "goal": 1,
+  "tier": 1,
+  "title": "Феникс",
+  "text": "Вернуться после перерыва в 3 дня",
+  "hidden": true
+ },
+ {
+  "id": "weekend4",
+  "group": "Серии",
+  "metric": "weekends",
+  "goal": 4,
+  "tier": 2,
+  "title": "Воин выходных",
+  "text": "Дела в субботу и воскресенье 4 недели",
+  "hidden": false
+ },
+ {
+  "id": "acts1",
+  "group": "Дела",
+  "metric": "acts",
+  "goal": 1,
+  "tier": 1,
+  "title": "Первое дело",
+  "text": "Записать первое дело",
+  "hidden": false
+ },
+ {
+  "id": "acts10",
+  "group": "Дела",
+  "metric": "acts",
+  "goal": 10,
+  "tier": 1,
+  "title": "Разогрелся",
+  "text": "10 дел",
+  "hidden": false
+ },
+ {
+  "id": "acts50",
+  "group": "Дела",
+  "metric": "acts",
+  "goal": 50,
+  "tier": 1,
+  "title": "Полсотни",
+  "text": "50 дел",
+  "hidden": false
+ },
+ {
+  "id": "acts100",
+  "group": "Дела",
+  "metric": "acts",
+  "goal": 100,
+  "tier": 2,
+  "title": "Сотня дел",
+  "text": "100 дел",
+  "hidden": false
+ },
+ {
+  "id": "acts500",
+  "group": "Дела",
+  "metric": "acts",
+  "goal": 500,
+  "tier": 3,
+  "title": "Пятьсот",
+  "text": "500 дел",
+  "hidden": false
+ },
+ {
+  "id": "acts1000",
+  "group": "Дела",
+  "metric": "acts",
+  "goal": 1000,
+  "tier": 4,
+  "title": "Тысяча дел",
+  "text": "1 000 дел",
+  "hidden": false
+ },
+ {
+  "id": "day100",
+  "group": "Дела",
+  "metric": "xpDayBest",
+  "goal": 100,
+  "tier": 1,
+  "title": "Сотня за день",
+  "text": "100 XP за один день",
+  "hidden": false
+ },
+ {
+  "id": "day300",
+  "group": "Дела",
+  "metric": "xpDayBest",
+  "goal": 300,
+  "tier": 2,
+  "title": "Три сотни",
+  "text": "300 XP за один день",
+  "hidden": false
+ },
+ {
+  "id": "day500",
+  "group": "Дела",
+  "metric": "xpDayBest",
+  "goal": 500,
+  "tier": 3,
+  "title": "Пятьсот за день",
+  "text": "500 XP за один день",
+  "hidden": false
+ },
+ {
+  "id": "day1000",
+  "group": "Дела",
+  "metric": "xpDayBest",
+  "goal": 1000,
+  "tier": 4,
+  "title": "Тысяча за день",
+  "text": "1 000 XP за один день",
+  "hidden": true
+ },
+ {
+  "id": "big150",
+  "group": "Дела",
+  "metric": "bigAct",
+  "goal": 150,
+  "tier": 2,
+  "title": "Мощный удар",
+  "text": "150 XP за одно дело",
+  "hidden": false
+ },
+ {
+  "id": "big250",
+  "group": "Дела",
+  "metric": "bigAct",
+  "goal": 250,
+  "tier": 3,
+  "title": "Сокрушительно",
+  "text": "250 XP за одно дело",
+  "hidden": false
+ },
+ {
+  "id": "wide4",
+  "group": "Дела",
+  "metric": "skillsInDayBest",
+  "goal": 4,
+  "tier": 1,
+  "title": "Разносторонний",
+  "text": "4 навыка за один день",
+  "hidden": false
+ },
+ {
+  "id": "wide7",
+  "group": "Дела",
+  "metric": "skillsInDayBest",
+  "goal": 7,
+  "tier": 3,
+  "title": "Многостаночник",
+  "text": "Все 7 навыков за один день",
+  "hidden": false
+ },
+ {
+  "id": "body10",
+  "group": "Навыки",
+  "metric": "skillActs.body",
+  "goal": 10,
+  "tier": 1,
+  "title": "Разминка",
+  "text": "10 дел для «Тело»",
+  "hidden": false
+ },
+ {
+  "id": "body100",
+  "group": "Навыки",
+  "metric": "skillActs.body",
+  "goal": 100,
+  "tier": 2,
+  "title": "Атлет",
+  "text": "100 дел для «Тело»",
+  "hidden": false
+ },
+ {
+  "id": "bodyLvl10",
+  "group": "Навыки",
+  "metric": "skillLevel.body",
+  "goal": 10,
+  "tier": 3,
+  "title": "Железное тело",
+  "text": "«Тело» на 10 уровне",
+  "hidden": false
+ },
+ {
+  "id": "mind10",
+  "group": "Навыки",
+  "metric": "skillActs.mind",
+  "goal": 10,
+  "tier": 1,
+  "title": "Любознательный",
+  "text": "10 дел для «Ум»",
+  "hidden": false
+ },
+ {
+  "id": "mind100",
+  "group": "Навыки",
+  "metric": "skillActs.mind",
+  "goal": 100,
+  "tier": 2,
+  "title": "Эрудит",
+  "text": "100 дел для «Ум»",
+  "hidden": false
+ },
+ {
+  "id": "mindLvl10",
+  "group": "Навыки",
+  "metric": "skillLevel.mind",
+  "goal": 10,
+  "tier": 3,
+  "title": "Мудрец",
+  "text": "«Ум» на 10 уровне",
+  "hidden": false
+ },
+ {
+  "id": "work10",
+  "group": "Навыки",
+  "metric": "skillActs.work",
+  "goal": 10,
+  "tier": 1,
+  "title": "Трудяга",
+  "text": "10 дел для «Дело»",
+  "hidden": false
+ },
+ {
+  "id": "work100",
+  "group": "Навыки",
+  "metric": "skillActs.work",
+  "goal": 100,
+  "tier": 2,
+  "title": "Машина",
+  "text": "100 дел для «Дело»",
+  "hidden": false
+ },
+ {
+  "id": "workLvl10",
+  "group": "Навыки",
+  "metric": "skillLevel.work",
+  "goal": 10,
+  "tier": 3,
+  "title": "Профессионал",
+  "text": "«Дело» на 10 уровне",
+  "hidden": false
+ },
+ {
+  "id": "home10",
+  "group": "Навыки",
+  "metric": "skillActs.home",
+  "goal": 10,
+  "tier": 1,
+  "title": "Хозяин",
+  "text": "10 дел для «Быт»",
+  "hidden": false
+ },
+ {
+  "id": "home100",
+  "group": "Навыки",
+  "metric": "skillActs.home",
+  "goal": 100,
+  "tier": 2,
+  "title": "Уютный дом",
+  "text": "100 дел для «Быт»",
+  "hidden": false
+ },
+ {
+  "id": "homeLvl10",
+  "group": "Навыки",
+  "metric": "skillLevel.home",
+  "goal": 10,
+  "tier": 3,
+  "title": "Домовой",
+  "text": "«Быт» на 10 уровне",
+  "hidden": false
+ },
+ {
+  "id": "people10",
+  "group": "Навыки",
+  "metric": "skillActs.people",
+  "goal": 10,
+  "tier": 1,
+  "title": "Душа компании",
+  "text": "10 дел для «Связи»",
+  "hidden": false
+ },
+ {
+  "id": "people100",
+  "group": "Навыки",
+  "metric": "skillActs.people",
+  "goal": 100,
+  "tier": 2,
+  "title": "Свой человек",
+  "text": "100 дел для «Связи»",
+  "hidden": false
+ },
+ {
+  "id": "peopleLvl10",
+  "group": "Навыки",
+  "metric": "skillLevel.people",
+  "goal": 10,
+  "tier": 3,
+  "title": "Связующий",
+  "text": "«Связи» на 10 уровне",
+  "hidden": false
+ },
+ {
+  "id": "craft10",
+  "group": "Навыки",
+  "metric": "skillActs.craft",
+  "goal": 10,
+  "tier": 1,
+  "title": "Творец",
+  "text": "10 дел для «Творчество»",
+  "hidden": false
+ },
+ {
+  "id": "craft100",
+  "group": "Навыки",
+  "metric": "skillActs.craft",
+  "goal": 100,
+  "tier": 2,
+  "title": "Художник",
+  "text": "100 дел для «Творчество»",
+  "hidden": false
+ },
+ {
+  "id": "craftLvl10",
+  "group": "Навыки",
+  "metric": "skillLevel.craft",
+  "goal": 10,
+  "tier": 3,
+  "title": "Маэстро",
+  "text": "«Творчество» на 10 уровне",
+  "hidden": false
+ },
+ {
+  "id": "rest10",
+  "group": "Навыки",
+  "metric": "skillActs.rest",
+  "goal": 10,
+  "tier": 1,
+  "title": "Режимщик",
+  "text": "10 дел для «Режим»",
+  "hidden": false
+ },
+ {
+  "id": "rest100",
+  "group": "Навыки",
+  "metric": "skillActs.rest",
+  "goal": 100,
+  "tier": 2,
+  "title": "Дзен",
+  "text": "100 дел для «Режим»",
+  "hidden": false
+ },
+ {
+  "id": "restLvl10",
+  "group": "Навыки",
+  "metric": "skillLevel.rest",
+  "goal": 10,
+  "tier": 3,
+  "title": "Баланс",
+  "text": "«Режим» на 10 уровне",
+  "hidden": false
+ },
+ {
+  "id": "km10",
+  "group": "Объём",
+  "metric": "km",
+  "goal": 10,
+  "tier": 1,
+  "title": "Десятка",
+  "text": "10 км ногами, колёсами или вплавь",
+  "hidden": false
+ },
+ {
+  "id": "km42",
+  "group": "Объём",
+  "metric": "km",
+  "goal": 42,
+  "tier": 2,
+  "title": "Марафонец",
+  "text": "42 км всего",
+  "hidden": false
+ },
+ {
+  "id": "km100",
+  "group": "Объём",
+  "metric": "km",
+  "goal": 100,
+  "tier": 2,
+  "title": "Сотня километров",
+  "text": "100 км всего",
+  "hidden": false
+ },
+ {
+  "id": "km500",
+  "group": "Объём",
+  "metric": "km",
+  "goal": 500,
+  "tier": 3,
+  "title": "Дальнобойщик",
+  "text": "500 км всего",
+  "hidden": false
+ },
+ {
+  "id": "pages300",
+  "group": "Объём",
+  "metric": "pages",
+  "goal": 300,
+  "tier": 1,
+  "title": "Книжный червь",
+  "text": "300 страниц",
+  "hidden": false
+ },
+ {
+  "id": "pages1000",
+  "group": "Объём",
+  "metric": "pages",
+  "goal": 1000,
+  "tier": 2,
+  "title": "Библиотекарь",
+  "text": "1 000 страниц",
+  "hidden": false
+ },
+ {
+  "id": "pages5000",
+  "group": "Объём",
+  "metric": "pages",
+  "goal": 5000,
+  "tier": 3,
+  "title": "Ходячая энциклопедия",
+  "text": "5 000 страниц",
+  "hidden": false
+ },
+ {
+  "id": "focus10h",
+  "group": "Объём",
+  "metric": "focusMinutes",
+  "goal": 600,
+  "tier": 1,
+  "title": "Десять часов фокуса",
+  "text": "10 часов учёбы, работы и творчества",
+  "hidden": false
+ },
+ {
+  "id": "focus100h",
+  "group": "Объём",
+  "metric": "focusMinutes",
+  "goal": 6000,
+  "tier": 2,
+  "title": "Сто часов",
+  "text": "100 часов учёбы, работы и творчества",
+  "hidden": false
+ },
+ {
+  "id": "focus500h",
+  "group": "Объём",
+  "metric": "focusMinutes",
+  "goal": 30000,
+  "tier": 3,
+  "title": "Пятьсот часов",
+  "text": "500 часов учёбы, работы и творчества",
+  "hidden": false
+ },
+ {
+  "id": "self10",
+  "group": "Характер",
+  "metric": "selfMade",
+  "goal": 10,
+  "tier": 1,
+  "title": "Сам себе сеньор",
+  "text": "10 дел с пометкой «сам»",
+  "hidden": false
+ },
+ {
+  "id": "self50",
+  "group": "Характер",
+  "metric": "selfMade",
+  "goal": 50,
+  "tier": 2,
+  "title": "Самоучка",
+  "text": "50 дел с пометкой «сам»",
+  "hidden": false
+ },
+ {
+  "id": "hard10",
+  "group": "Характер",
+  "metric": "hard",
+  "goal": 10,
+  "tier": 1,
+  "title": "Не ищу лёгких путей",
+  "text": "10 сложных дел",
+  "hidden": false
+ },
+ {
+  "id": "hard50",
+  "group": "Характер",
+  "metric": "hard",
+  "goal": 50,
+  "tier": 2,
+  "title": "Через тернии",
+  "text": "50 сложных дел",
+  "hidden": false
+ },
+ {
+  "id": "record1",
+  "group": "Характер",
+  "metric": "records",
+  "goal": 1,
+  "tier": 1,
+  "title": "Личный рекорд",
+  "text": "Записать первый рекорд",
+  "hidden": false
+ },
+ {
+  "id": "record10",
+  "group": "Характер",
+  "metric": "records",
+  "goal": 10,
+  "tier": 2,
+  "title": "Рекордсмен",
+  "text": "10 рекордов",
+  "hidden": false
+ },
+ {
+  "id": "will10",
+  "group": "Характер",
+  "metric": "abstains",
+  "goal": 10,
+  "tier": 1,
+  "title": "Сила воли",
+  "text": "10 раз удержаться",
+  "hidden": false
+ },
+ {
+  "id": "will50",
+  "group": "Характер",
+  "metric": "abstains",
+  "goal": 50,
+  "tier": 2,
+  "title": "Стальная воля",
+  "text": "50 раз удержаться",
+  "hidden": false
+ },
+ {
+  "id": "honest10",
+  "group": "Характер",
+  "metric": "minuses",
+  "goal": 10,
+  "tier": 1,
+  "title": "Честность",
+  "text": "Записать 10 своих минусов",
+  "hidden": false
+ },
+ {
+  "id": "fair1",
+  "group": "Характер",
+  "metric": "disputes",
+  "goal": 1,
+  "tier": 1,
+  "title": "Справедливость",
+  "text": "Поправить оценку",
+  "hidden": false
+ },
+ {
+  "id": "early5",
+  "group": "Характер",
+  "metric": "early",
+  "goal": 5,
+  "tier": 1,
+  "title": "Ранняя пташка",
+  "text": "5 дел до 8 утра",
+  "hidden": false
+ },
+ {
+  "id": "early30",
+  "group": "Характер",
+  "metric": "early",
+  "goal": 30,
+  "tier": 2,
+  "title": "Жаворонок",
+  "text": "30 дел до 8 утра",
+  "hidden": false
+ },
+ {
+  "id": "night5",
+  "group": "Характер",
+  "metric": "night",
+  "goal": 5,
+  "tier": 1,
+  "title": "Сова",
+  "text": "5 дел после полуночи",
+  "hidden": true
+ },
+ {
+  "id": "quest1",
+  "group": "Квесты и награды",
+  "metric": "questsDone",
+  "goal": 1,
+  "tier": 1,
+  "title": "Первый квест",
+  "text": "Выполнить квест",
+  "hidden": false
+ },
+ {
+  "id": "quest10",
+  "group": "Квесты и награды",
+  "metric": "questsDone",
+  "goal": 10,
+  "tier": 1,
+  "title": "Искатель приключений",
+  "text": "10 квестов",
+  "hidden": false
+ },
+ {
+  "id": "quest50",
+  "group": "Квесты и награды",
+  "metric": "questsDone",
+  "goal": 50,
+  "tier": 2,
+  "title": "Охотник за квестами",
+  "text": "50 квестов",
+  "hidden": false
+ },
+ {
+  "id": "quest200",
+  "group": "Квесты и награды",
+  "metric": "questsDone",
+  "goal": 200,
+  "tier": 3,
+  "title": "Герой квестов",
+  "text": "200 квестов",
+  "hidden": false
+ },
+ {
+  "id": "reward1",
+  "group": "Квесты и награды",
+  "metric": "rewardsTaken",
+  "goal": 1,
+  "tier": 1,
+  "title": "Заслуженный отдых",
+  "text": "Взять первую награду",
+  "hidden": false
+ },
+ {
+  "id": "reward10",
+  "group": "Квесты и награды",
+  "metric": "rewardsTaken",
+  "goal": 10,
+  "tier": 2,
+  "title": "Умею отдыхать",
+  "text": "Взять 10 наград",
+  "hidden": false
+ },
+ {
+  "id": "spent1000",
+  "group": "Квесты и награды",
+  "metric": "spentTotal",
+  "goal": 1000,
+  "tier": 3,
+  "title": "Транжира",
+  "text": "Потратить 1 000 монет",
+  "hidden": true
+ }
+]

@@ -133,6 +133,18 @@ public struct DayClock: Sendable {
         return String(format: "%04d-%02d-%02d", c.year!, c.month!, c.day!)
     }
 
+    /// Сколько дней от `a` до `b`.
+    public static func daysBetween(_ a: String, _ b: String) -> Int {
+        guard let da = date(a), let db = date(b) else { return 0 }
+        return utc.dateComponents([.day], from: da, to: db).day ?? 0
+    }
+
+    /// День недели: 1 — воскресенье, 7 — суббота.
+    static func weekday(_ key: String) -> Int {
+        guard let d = date(key) else { return 0 }
+        return utc.component(.weekday, from: d)
+    }
+
     /// Понедельник недели, к которой относится день.
     public static func weekStart(_ key: String) -> String {
         guard let d = date(key) else { return key }

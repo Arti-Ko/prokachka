@@ -36,7 +36,7 @@ struct Composer: View {
                         .transition(.asymmetric(insertion: .scale.combined(with: .opacity), removal: .move(edge: .top).combined(with: .opacity)))
                 }
             }
-            AssessmentPreview(assessment: assessment, hasText: !text.trimmingCharacters(in: .whitespaces).isEmpty, override: $override, compact: compact)
+            AssessmentPreview(assessment: assessment, text: text, override: $override, compact: compact)
                 .frame(maxWidth: .infinity, minHeight: 20, alignment: .leading)
         }
         .onAppear { if autofocus { focused = true } }

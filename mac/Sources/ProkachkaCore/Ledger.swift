@@ -39,6 +39,8 @@ public struct Snapshot: Sendable {
     public let dayTotals: [String: Int]
     public let quests: [QuestState]
     public let achievements: [AchievementState]
+    /// Счётчики для достижений: «acts», «km», «skillActs.body»…
+    public let metrics: [String: Int]
 
     public var rank: String { Levels.rank(level.level) }
     public var todayEntries: [Entry] { entries.filter { $0.day == today }.reversed() }
@@ -46,8 +48,17 @@ public struct Snapshot: Sendable {
 
     /// Контекст для оценки следующего дела.
     public func context(override: Skill? = nil) -> AssessContext {
-        let acts = entries.filter { $0.day == today && !$0.isQuest }.map { DayAct(skill: $0.skill, xp: $0.xp) }
-        return AssessContext(dayActs: acts, streak: streak, calibration: calibration, override: override)
+        let acts = entries.filter { $0.day == today && !$0.isQuest }
+            .map { DayAct(skill: $0.skill, xp: $0.xp, text: Assessor.prepare($0.text), label: $0.steps.first?.name ?? "") }
+        var lastTrained: [Skill: Int] = [:]
+        var lastAny: String?
+        for e in entries where !e.isQuest && e.xp > 0 && e.day < today {
+            if lastAny.map({ e.day > $0 }) ?? true { lastAny = e.day }
+            let ago = DayClock.daysBetween(e.day, today)
+            if Skill.trained.contains(e.skill) { lastTrained[e.skill] = min(lastTrained[e.skill] ?? .max, ago) }
+        }
+        return AssessContext(dayActs: acts, streak: streak, calibration: calibration, lastTrained: lastTrained,
+                             daysSinceAny: lastAny.map { DayClock.daysBetween($0, today) }, override: override)
     }
 
     /// Награды за квесты, которые выполнены, но ещё не записаны в журнал.
@@ -119,10 +130,11 @@ public enum Ledger {
 
         let quests = Quests.states(entries: entries, today: today, rewarded: Set(log.filter { $0.kind == .quest }.map(\.id)))
         let level = Levels.info(total)
-        let achievements = Achievements.states(entries: entries, level: level.level, dayTotals: dayTotals,
-                                               positiveDays: positiveDays, clock: clock)
+        let metrics = Achievements.metrics(entries: entries, total: total, level: level.level, skills: skills, dayTotals: dayTotals,
+                                           positiveDays: positiveDays, edits: log.filter { $0.kind == .edit }.count, spends: spends, clock: clock)
         return Snapshot(today: today, entries: entries, total: total, level: level, skills: skills, calibration: calibration,
-                        coins: coins, spends: spends, streak: streak, dayTotals: dayTotals, quests: quests, achievements: achievements)
+                        coins: coins, spends: spends, streak: streak, dayTotals: dayTotals, quests: quests,
+                        achievements: Achievements.states(metrics), metrics: metrics)
     }
 
     /// Объединение журналов: одинаковый `id` — одна запись.

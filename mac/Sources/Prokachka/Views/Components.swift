@@ -144,7 +144,7 @@ struct XPText: View {
 /// Оценка до отправки: опыт, навык, множители. Если навык не распознан — кнопки выбора.
 struct AssessmentPreview: View {
     let assessment: Assessment?
-    let hasText: Bool
+    let text: String
     @Binding var override: Skill?
     var compact = false
 
@@ -172,7 +172,10 @@ struct AssessmentPreview: View {
                 }
             }
             .animation(.snappy, value: a)
-        } else if hasText {
+        } else if Assessor.hint(text) == .plan {
+            Label("Похоже на план. Запиши, когда сделаешь — тогда и будет опыт.", systemImage: "calendar")
+                .font(.caption).foregroundStyle(.secondary)
+        } else if !text.trimmingCharacters(in: .whitespaces).isEmpty {
             Text("Опиши чуть подробнее: что сделал и сколько").font(.caption).foregroundStyle(.secondary)
         }
     }

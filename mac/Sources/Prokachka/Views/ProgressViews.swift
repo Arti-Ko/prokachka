@@ -87,30 +87,99 @@ struct QuestsView: View {
 
 struct AchievementsView: View {
     @Environment(EventStore.self) private var store
-    private let symbols = ["first": "sparkles", "lvl10": "crown.fill", "streak7": "flame.fill", "xp300": "bolt.fill", "self10": "star.fill",
-                           "early5": "sunrise.fill", "mind20": "book.fill", "clean7": "heart.fill", "lvl15": "crown.fill", "streak30": "flame.circle.fill"]
-    private let tints: [Color] = [.orange, .yellow, .red, .blue, .purple, .pink, .indigo, .green, .teal, .orange]
 
     var body: some View {
+        let all = store.snapshot.achievements
+        let groups = all.map(\.group).reduce(into: [String]()) { if !$0.contains($1) { $0.append($1) } }
+        let got = all.filter(\.done).count
         ScrollView {
-            LazyVGrid(columns: [GridItem(.adaptive(minimum: 150), spacing: 12)], spacing: 12) {
-                ForEach(Array(store.snapshot.achievements.enumerated()), id: \.element.id) { i, a in
-                    VStack(spacing: 8) {
-                        Image(systemName: a.done ? symbols[a.id] ?? "star.fill" : "lock.fill")
-                            .font(.system(size: 24, weight: .semibold))
-                            .foregroundStyle(a.done ? .white : .secondary)
-                            .frame(width: 56, height: 56)
-                            .background(a.done ? AnyShapeStyle(tints[i % tints.count].gradient) : AnyShapeStyle(.quaternary), in: Circle())
-                        Text(a.title).font(.callout.weight(.semibold))
-                        Text(a.text).font(.caption).foregroundStyle(.secondary).multilineTextAlignment(.center)
-                        Text(a.done ? "Получено" : "\(a.progress) из \(a.goal)").font(.caption).foregroundStyle(.secondary).monospacedDigit()
+            VStack(alignment: .leading, spacing: 22) {
+                VStack(alignment: .leading, spacing: 6) {
+                    Text("Получено \(got) из \(all.count)").font(.headline)
+                    ProgressView(value: Double(got), total: Double(max(all.count, 1)))
+                }
+                ForEach(groups, id: \.self) { g in
+                    let items = all.filter { $0.group == g }
+                    VStack(alignment: .leading, spacing: 10) {
+                        HStack {
+                            Text(g).font(.title3.weight(.semibold))
+                            Spacer()
+                            Text("\(items.filter(\.done).count) из \(items.count)").foregroundStyle(.secondary).monospacedDigit()
+                        }
+                        LazyVGrid(columns: [GridItem(.adaptive(minimum: 150), spacing: 12)], spacing: 12) {
+                            ForEach(items) { AchievementCard(a: $0) }
+                        }
                     }
-                    .frame(maxWidth: .infinity)
-                    .padding(14)
-                    .background(.quaternary.opacity(0.35), in: RoundedRectangle(cornerRadius: 12, style: .continuous))
                 }
             }
             .padding(20)
+        }
+    }
+}
+
+struct AchievementCard: View {
+    let a: AchievementState
+
+    var body: some View {
+        let secret = a.hidden && !a.done
+        VStack(spacing: 8) {
+            Image(systemName: a.done ? Self.symbol(a.metric) : secret ? "questionmark" : "lock.fill")
+                .font(.system(size: 22, weight: .semibold))
+                .foregroundStyle(a.done ? .white : .secondary)
+                .frame(width: 54, height: 54)
+                .background(a.done ? AnyShapeStyle(Self.tier(a.tier).gradient) : AnyShapeStyle(.quaternary), in: Circle())
+                .overlay { if a.done { Circle().stroke(.white.opacity(0.35), lineWidth: 1.5).padding(3) } }
+            Text(secret ? "???" : a.title).font(.callout.weight(.semibold)).multilineTextAlignment(.center)
+            Text(secret ? "Секретное достижение" : a.text).font(.caption).foregroundStyle(.secondary).multilineTextAlignment(.center)
+            if a.done {
+                Text(Self.tierName(a.tier)).font(.caption2.weight(.semibold)).foregroundStyle(Self.tier(a.tier))
+            } else if !secret {
+                ProgressView(value: Double(a.progress), total: Double(a.goal)).controlSize(.small)
+                Text("\(a.progress) из \(a.goal)").font(.caption2).foregroundStyle(.secondary).monospacedDigit()
+            }
+        }
+        .frame(maxWidth: .infinity)
+        .padding(12)
+        .background(.quaternary.opacity(0.35), in: RoundedRectangle(cornerRadius: 12, style: .continuous))
+        .help(secret ? "Откроется само, когда получишь" : a.text)
+    }
+
+    static func tier(_ t: Int) -> Color {
+        switch t {
+        case 1: Color(red: 0.78, green: 0.50, blue: 0.27)
+        case 2: Color(red: 0.55, green: 0.60, blue: 0.68)
+        case 3: Color(red: 0.95, green: 0.70, blue: 0.10)
+        default: Color(red: 0.45, green: 0.55, blue: 0.95)
+        }
+    }
+
+    static func tierName(_ t: Int) -> String { ["Бронза", "Серебро", "Золото", "Платина"][max(0, min(t, 4) - 1)] }
+
+    static func symbol(_ metric: String) -> String {
+        if metric.hasPrefix("skillActs.") || metric.hasPrefix("skillLevel.") {
+            return Skill(rawValue: String(metric.split(separator: ".")[1]))?.symbol ?? "star.fill"
+        }
+        switch metric {
+        case "level": return "crown.fill"
+        case "xpTotal", "xpDayBest", "bigAct": return "bolt.fill"
+        case "streakBest", "daysActive": return "flame.fill"
+        case "cleanBest": return "leaf.fill"
+        case "comebacks": return "arrow.uturn.up"
+        case "weekends": return "calendar"
+        case "acts": return "checkmark.seal.fill"
+        case "skillsInDayBest": return "square.grid.3x3.fill"
+        case "km": return "figure.run"
+        case "pages": return "book.fill"
+        case "focusMinutes": return "timer"
+        case "selfMade": return "hand.raised.fill"
+        case "hard", "records": return "trophy.fill"
+        case "abstains": return "shield.fill"
+        case "minuses": return "checkmark.shield.fill"
+        case "disputes": return "scalemass.fill"
+        case "early": return "sunrise.fill"
+        case "night": return "moon.stars.fill"
+        case "questsDone": return "target"
+        default: return "gift.fill"
         }
     }
 }
