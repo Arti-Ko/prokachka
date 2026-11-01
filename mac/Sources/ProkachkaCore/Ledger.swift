@@ -17,6 +17,11 @@ public struct Entry: Identifiable, Equatable, Sendable {
 public struct SkillState: Equatable, Sendable {
     public let total: Int
     public let info: LevelInfo
+
+    public init(total: Int) {
+        self.total = total
+        info = Levels.skill(total)
+    }
 }
 
 /// Всё, что показывает интерфейс, выведено из журнала одной функцией.
@@ -96,7 +101,7 @@ public enum Ledger {
         for e in entries where Skill.trained.contains(e.skill) { skillTotals[e.skill, default: 0] += e.xp }
         let skills = Dictionary(uniqueKeysWithValues: Skill.trained.map { s -> (Skill, SkillState) in
             let t = max(0, skillTotals[s] ?? 0)
-            return (s, SkillState(total: t, info: Levels.skill(t)))
+            return (s, SkillState(total: t))
         })
 
         var dayTotals: [String: Int] = [:]
