@@ -1,0 +1,11 @@
+.build/
+.swiftpm/
+dist/
+xcuserdata/
+*.xcodeproj
+.DS_Store
+# android
+android/.gradle/
+android/build/
+android/app/build/
+android/local.properties
