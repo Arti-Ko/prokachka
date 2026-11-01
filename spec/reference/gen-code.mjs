@@ -79,11 +79,11 @@ package dev.artiko.prokachka.core
 
 internal object Rules {
     val cues: List<Triple<Skill, Int, Rx>> = listOf(
-${CUES.map(([c, w, re]) => `        Triple(Skill.${c}, ${w}, ${kt(re)}),`).join('\n')}
+${CUES.map(([c, w, re]) => `        Triple(Skill.${c.toUpperCase()}, ${w}, ${kt(re)}),`).join('\n')}
     )
 
     val minuses: List<Minus> = listOf(
-${MINUS.map(m => `        Minus(${kt(m.re)}, ${m.xp}.0, Skill.${m.cat}, ${q(m.label)}${m.perHour ? ', perHour = true' : ''}),`).join('\n')}
+${MINUS.map(m => `        Minus(${kt(m.re)}, ${m.xp}.0, Skill.${m.cat.toUpperCase()}, ${q(m.label)}${m.perHour ? ', perHour = true' : ''}),`).join('\n')}
     )
 
     val abstain = ${kt(ABSTAIN)}
