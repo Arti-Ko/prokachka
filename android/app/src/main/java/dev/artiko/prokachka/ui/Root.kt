@@ -65,6 +65,7 @@ import dev.artiko.prokachka.core.Event
 import dev.artiko.prokachka.core.Fmt
 import dev.artiko.prokachka.core.Skill
 import dev.artiko.prokachka.data.EventStore
+import dev.artiko.prokachka.data.SyncClient
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -75,8 +76,10 @@ enum class Tab(val title: String, val icon: String) {
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun ProkachkaRoot(store: EventStore) {
+fun ProkachkaRoot(store: EventStore, sync: SyncClient) {
     val s by store.snapshot.collectAsStateWithLifecycle()
+    val syncState by sync.state.collectAsStateWithLifecycle()
+    var syncOpen by rememberSaveable { mutableStateOf(false) }
     val rewards by store.rewards.collectAsStateWithLifecycle()
     val lastAdded by store.lastAdded.collectAsStateWithLifecycle()
     var tab by rememberSaveable { mutableStateOf(Tab.TODAY) }
@@ -85,7 +88,13 @@ fun ProkachkaRoot(store: EventStore) {
     val list = rememberLazyListState()
     val open = openId?.let { id -> s.entries.firstOrNull { it.id == id } }
 
-    BackHandler(enabled = open != null || journal) { if (open != null) openId = null else journal = false }
+    BackHandler(enabled = open != null || journal || syncOpen) {
+        when {
+            open != null -> openId = null
+            syncOpen -> syncOpen = false
+            else -> journal = false
+        }
+    }
 
     Box(Modifier.fillMaxSize().background(P.background)) {
         LazyColumn(
@@ -94,8 +103,9 @@ fun ProkachkaRoot(store: EventStore) {
             contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 200.dp),
         ) {
             when {
+                tab == Tab.TODAY && syncOpen -> syncScreen(syncState, sync, back = { syncOpen = false })
                 tab == Tab.TODAY && journal -> journalScreen(s, back = { journal = false }) { openId = it.id }
-                tab == Tab.TODAY -> todayScreen(s, lastAdded, openJournal = { journal = true }) { openId = it.id }
+                tab == Tab.TODAY -> todayScreen(s, lastAdded, syncLine(syncState), openSync = { syncOpen = true }, openJournal = { journal = true }) { openId = it.id }
                 tab == Tab.SKILLS -> skillsScreen(s)
                 tab == Tab.QUESTS -> questsScreen(s)
                 tab == Tab.ACHIEVEMENTS -> achievementsScreen(s)
@@ -111,7 +121,7 @@ fun ProkachkaRoot(store: EventStore) {
         ) {
             Composer(store)
             // Как в iOS: пока открыта клавиатура, панели вкладок нет.
-            if (!WindowInsets.isImeVisible) TabBar(tab) { tab = it; journal = false }
+            if (!WindowInsets.isImeVisible) TabBar(tab) { tab = it; journal = false; syncOpen = false }
         }
 
         Banners(store, Modifier.align(Alignment.TopCenter).statusBarsPadding().padding(horizontal = 10.dp, vertical = 6.dp))

@@ -13,7 +13,9 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -62,6 +64,32 @@ class EventStore(context: Context) {
     val problem = MutableStateFlow<String?>(null)
     /** Последнее добавленное дело: подсветить строку. */
     val lastAdded = MutableStateFlow<String?>(null)
+    private val _changes = MutableSharedFlow<Unit>(extraBufferCapacity = 1)
+    /** Журнал изменился на этом устройстве — пора синхронизироваться. */
+    val changes: SharedFlow<Unit> = _changes
+
+    val allEvents: List<Event> get() = events
+
+    /** Принять события с другого устройства: только новые id, журнал по-прежнему только дописывается. */
+    fun importEvents(incoming: List<Event>, from: String): Int {
+        val known = events.map { it.id }.toMutableSet()
+        val fresh = incoming.filter { known.add(it.id) }
+        if (fresh.isEmpty()) return 0
+        val before = _snapshot.value
+        if (!append(fresh)) return 0
+        // Вместе дела двух устройств могли закрыть квест: награда с тем же id, дубля не будет.
+        val due = _snapshot.value.dueQuestEvents(System.currentTimeMillis(), deviceId)
+        if (due.isNotEmpty()) append(due)
+        val acts = fresh.filter { it.kind == Event.Kind.ACT }
+        if (acts.isNotEmpty()) {
+            val xp = acts.sumOf { it.xp ?: 0 }
+            val last = acts.maxByOrNull { it.ts }?.text ?: ""
+            post("С $from · ${acts.size} ${Fmt.plural(acts.size, "запись", "записи", "записей")}", "${Fmt.signed(xp)} XP · последняя: «$last»")
+        }
+        val after = _snapshot.value
+        if (after.level.level > before.level.level) levelUp.value = LevelUp(after.level.level, after.rank)
+        return fresh.size
+    }
 
     init {
         load()
@@ -90,6 +118,7 @@ class EventStore(context: Context) {
         if (due.isNotEmpty()) append(due)
         lastAdded.value = act.id
         announce(before, due)
+        _changes.tryEmit(Unit)
         return a
     }
 
@@ -98,16 +127,19 @@ class EventStore(context: Context) {
         append(listOf(Event.edit(entry.id, tune, System.currentTimeMillis(), today(), deviceId)))
         val after = _snapshot.value.calibration[entry.skill]
         if (after != null && after != before) post("Учту на будущее", "«${entry.skill.title}» теперь оценивается ×${Fmt.k(after)}")
+        _changes.tryEmit(Unit)
     }
 
     fun delete(entry: Entry) {
         append(listOf(Event.delete(entry.id, System.currentTimeMillis(), today(), deviceId)))
+        _changes.tryEmit(Unit)
     }
 
     fun take(reward: Reward) {
         if (_snapshot.value.coins < reward.cost) return
         if (append(listOf(Event.spend(reward.title, reward.cost, System.currentTimeMillis(), today(), deviceId)))) {
             post("Награда твоя", "${reward.title} · −${reward.cost} монет")
+            _changes.tryEmit(Unit)
         }
     }
 

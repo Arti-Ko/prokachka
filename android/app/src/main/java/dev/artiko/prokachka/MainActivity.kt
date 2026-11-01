@@ -12,11 +12,18 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         val store = (application as ProkachkaApp).store
-        setContent { ProkachkaTheme { ProkachkaRoot(store) } }
+        val sync = (application as ProkachkaApp).sync
+        setContent { ProkachkaTheme { ProkachkaRoot(store, sync) } }
     }
 
     override fun onResume() {
         super.onResume()
         (application as ProkachkaApp).store.refreshDay()
+        (application as ProkachkaApp).sync.resume()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        (application as ProkachkaApp).sync.pause()
     }
 }

@@ -144,8 +144,16 @@ fun LevelCard(s: Snapshot) {
     }
 }
 
-fun LazyListScope.todayScreen(s: Snapshot, lastAdded: String?, openJournal: () -> Unit, openEntry: (Entry) -> Unit) {
-    item { ScreenHeader("Сегодня", longToday()) { HeaderButton("list", "Журнал", openJournal) } }
+fun LazyListScope.todayScreen(s: Snapshot, lastAdded: String?, sync: String?, openSync: () -> Unit, openJournal: () -> Unit, openEntry: (Entry) -> Unit) {
+    item {
+        ScreenHeader("Сегодня", longToday()) {
+            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                HeaderButton("laptop", "Mac", openSync)
+                HeaderButton("list", "Журнал", openJournal)
+            }
+        }
+        if (sync != null) SyncChip(sync, openSync)
+    }
     item { Spacer(Modifier.height(14.dp)); LevelCard(s) }
     item {
         Group("Записи", "${Fmt.signed(s.todayXP)} XP") {

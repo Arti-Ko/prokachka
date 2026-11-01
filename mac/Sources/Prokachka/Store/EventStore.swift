@@ -64,6 +64,29 @@ final class EventStore {
     }
 
     var today: String { clock.key(Date()) }
+    var dataDirectory: URL { directory }
+    var allEvents: [Event] { events }
+
+    /// Принять события с другого устройства: только новые id, журнал по-прежнему только дописывается.
+    @discardableResult
+    func importEvents(_ incoming: [Event], from name: String) -> Int {
+        var known = Set(events.map(\.id))
+        let fresh = incoming.filter { known.insert($0.id).inserted }
+        guard !fresh.isEmpty else { return 0 }
+        let before = snapshot
+        guard append(fresh) else { return 0 }
+        // Вместе дела двух устройств могли закрыть квест: награда с тем же id, дубля не будет.
+        let due = snapshot.dueQuestEvents(ts: Self.nowMs(), device: deviceId)
+        if !due.isEmpty { append(due) }
+        let acts = fresh.filter { $0.kind == .act }
+        if !acts.isEmpty {
+            let xp = acts.reduce(0) { $0 + ($1.xp ?? 0) }
+            let last = acts.max { $0.ts < $1.ts }?.text ?? ""
+            post("С устройства «\(name)» · \(acts.count) \(Fmt.plural(acts.count, "запись", "записи", "записей"))", "\(Fmt.signed(Double(xp))) XP · последняя: «\(last)»")
+        }
+        if snapshot.level.level > before.level.level { levelUp = LevelUp(level: snapshot.level.level, rank: snapshot.rank) }
+        return fresh.count
+    }
 
     func preview(_ text: String, override: Skill?) -> Assessment? {
         Assessor.assess(text, snapshot.context(override: override))

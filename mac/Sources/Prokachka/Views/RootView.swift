@@ -2,7 +2,7 @@ import SwiftUI
 import ProkachkaCore
 
 enum Section: String, CaseIterable, Identifiable {
-    case today, journal, skills, quests, achievements, rewards, stats
+    case today, journal, skills, quests, achievements, rewards, stats, sync
     var id: String { rawValue }
 
     var title: String {
@@ -14,6 +14,7 @@ enum Section: String, CaseIterable, Identifiable {
         case .achievements: "Достижения"
         case .rewards: "Награды"
         case .stats: "Статистика"
+        case .sync: "Синхронизация"
         }
     }
 
@@ -26,6 +27,7 @@ enum Section: String, CaseIterable, Identifiable {
         case .achievements: "trophy"
         case .rewards: "gift"
         case .stats: "chart.bar"
+        case .sync: "arrow.triangle.2.circlepath"
         }
     }
 }
@@ -49,6 +51,7 @@ struct RootView: View {
                 SwiftUI.Section("Ещё") {
                     row(.rewards, badge: store.snapshot.coins)
                     row(.stats)
+                    row(.sync)
                 }
             }
             .navigationSplitViewColumnWidth(min: 190, ideal: 210)
@@ -81,6 +84,7 @@ struct RootView: View {
         case .achievements: AchievementsView()
         case .rewards: RewardsView()
         case .stats: StatsView()
+        case .sync: SyncView()
         }
     }
 
@@ -93,6 +97,7 @@ struct RootView: View {
         case .achievements: "\(store.snapshot.achievements.filter(\.done).count) из \(store.snapshot.achievements.count)"
         case .rewards: "\(store.snapshot.coins) \(Fmt.plural(store.snapshot.coins, "монета", "монеты", "монет"))"
         case .stats: "Последние 12 недель"
+        case .sync: "Mac и телефон в одной сети Wi‑Fi"
         }
     }
 

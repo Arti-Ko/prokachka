@@ -54,6 +54,9 @@ cat > "$APP/Contents/Info.plist" <<PLIST
     $ICON_KEY
     <key>LSMinimumSystemVersion</key><string>14.0</string>
     <key>LSApplicationCategoryType</key><string>public.app-category.productivity</string>
+    <key>NSLocalNetworkUsageDescription</key>
+    <string>Прокачка обменивается записями с телефоном в вашей сети Wi‑Fi. Данные зашифрованы и никуда больше не уходят.</string>
+    <key>NSBonjourServices</key><array><string>_prokachka._tcp</string></array>
     <key>NSPrincipalClass</key><string>NSApplication</string>
     <key>NSHighResolutionCapable</key><true/>
     <key>NSHumanReadableCopyright</key><string>Прокачка</string>
