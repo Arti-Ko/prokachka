@@ -1,0 +1,95 @@
+name: Выпуск
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  mac:
+    name: Mac
+    runs-on: macos-26
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Версия из тега
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          if [ "$VERSION" != "$(tr -d '[:space:]' < VERSION)" ]; then
+            echo "::error::Тег $GITHUB_REF_NAME не совпадает с файлом VERSION"
+            exit 1
+          fi
+      - name: Тесты
+        working-directory: mac
+        run: swift test
+      - name: Сборка установщика
+        working-directory: mac
+        run: Scripts/package.sh
+      - uses: actions/upload-artifact@v4
+        with:
+          name: mac
+          path: |
+            mac/dist/Prokachka.dmg
+            mac/dist/Prokachka.zip
+
+  android:
+    name: Android
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+      - name: Android SDK 37
+        run: yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" "platforms;android-37.0" "build-tools;37.0.0" >/dev/null
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Тесты и сборка APK
+        working-directory: android
+        run: |
+          ./gradlew :app:testDebugUnitTest :app:assembleDebug
+          cp app/build/outputs/apk/debug/app-debug.apk Prokachka.apk
+      - uses: actions/upload-artifact@v4
+        with:
+          name: android
+          path: android/Prokachka.apk
+
+  publish:
+    name: Публикация
+    needs: [mac, android]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/download-artifact@v4
+        with:
+          path: dist
+          merge-multiple: true
+      - name: Описание выпуска
+        run: |
+          PREVIOUS="$(git describe --tags --abbrev=0 "${GITHUB_REF_NAME}^" 2>/dev/null || true)"
+          {
+            echo "## Что нового"
+            echo
+            if [ -n "$PREVIOUS" ]; then
+              git log --no-merges --pretty='- %s' "$PREVIOUS..$GITHUB_REF_NAME" \
+                | grep -vE '^- (chore|ci|test|docs|build)(\(.*\))?!?:' \
+                | sed -E 's/^- [a-z]+(\([^)]*\))?!?: /- /' || true
+            else
+              echo "- Первый выпуск: приложение для Mac и Android, формула опыта, 92 достижения"
+            fi
+            echo
+            cat .github/release-notes.md
+          } > dist/notes.md
+          cat dist/notes.md
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            dist/Prokachka.dmg
+            dist/Prokachka.zip
+            dist/Prokachka.apk
+          body_path: dist/notes.md

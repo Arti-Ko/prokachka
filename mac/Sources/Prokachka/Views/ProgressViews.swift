@@ -138,7 +138,7 @@ struct AchievementCard: View {
                 Text("\(a.progress) из \(a.goal)").font(.caption2).foregroundStyle(.secondary).monospacedDigit()
             }
         }
-        .frame(maxWidth: .infinity)
+        .frame(maxWidth: .infinity, minHeight: 156, alignment: .top)
         .padding(12)
         .background(.quaternary.opacity(0.35), in: RoundedRectangle(cornerRadius: 12, style: .continuous))
         .help(secret ? "Откроется само, когда получишь" : a.text)

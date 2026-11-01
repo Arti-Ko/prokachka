@@ -32,7 +32,8 @@ enum Section: String, CaseIterable, Identifiable {
 
 struct RootView: View {
     @Environment(EventStore.self) private var store
-    @State private var section: Section? = .today
+    // PROKACHKA_SECTION=achievements — открыть раздел при запуске (для скриншотов).
+    @State private var section: Section? = Section(rawValue: ProcessInfo.processInfo.environment["PROKACHKA_SECTION"] ?? "") ?? .today
 
     var body: some View {
         @Bindable var store = store

@@ -1,3 +1,7 @@
+// Версия общая с Mac: файл VERSION в корне репозитория.
+val appVersion = rootProject.file("../VERSION").readText().trim()
+val (major, minor, patch) = appVersion.split(".").map { it.toInt() }
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
@@ -12,8 +16,18 @@ android {
         applicationId = "dev.artiko.prokachka"
         minSdk = 26
         targetSdk = 37
-        versionCode = 1
-        versionName = "0.1.0"
+        versionCode = major * 10000 + minor * 100 + patch
+        versionName = appVersion
+    }
+
+    // Debug-ключ закреплён в репозитории (стандартный пароль android): APK из CI ставится поверх локальной сборки.
+    signingConfigs {
+        getByName("debug") {
+            storeFile = file("prokachka-debug.keystore")
+            storePassword = "android"
+            keyAlias = "androiddebugkey"
+            keyPassword = "android"
+        }
     }
 
     buildTypes {
