@@ -47,8 +47,6 @@ Scripts/make-icon.sh          # перерисовать иконку
 1. Поправить формулу в `design/prototype.html` и проверить в браузере.
 2. Пересобрать эталон и векторы:
    ```bash
-   python3 - <<'PY'  # см. историю коммита «ядро формулы» — вырезка из прототипа
-   PY
-   node spec/reference/gen-vectors.mjs
+   python3 spec/reference/extract.py && node spec/reference/gen-vectors.mjs
    ```
 3. Повторить изменение в `mac/Sources/ProkachkaCore/Rules.swift` / `Assessor.swift` и Kotlin, пока `swift test` не позеленеет.
